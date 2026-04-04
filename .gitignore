@@ -1,0 +1,11 @@
+pnpm-lock.yaml
+.vscode/
+dist/
+node_modules/
+coverage/
+*.log
+*.tsbuildinfo
+*.env
+.DS_Store
+.idea/
+*.iml

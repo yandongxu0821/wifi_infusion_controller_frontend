@@ -1,0 +1,9 @@
+
+---
+import StandardLayout from '@/layouts/StandardLayout.astro'
+import MonitoringDashboard from '@/components/monitoring_dashboard/MonitoringDashboard.vue'
+---
+
+<StandardLayout title="实时输液大屏监控">
+  <MonitoringDashboard client:load />
+</StandardLayout>

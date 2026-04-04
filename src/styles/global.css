@@ -1,0 +1,264 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Background & Surface - 深灰蓝工业风 */
+    --background: 220 18% 12%;
+    --foreground: 210 15% 92%;
+    --card: 220 15% 16%;
+    --card-foreground: 210 15% 92%;
+    --popover: 220 18% 14%;
+    --popover-foreground: 210 15% 92%;
+
+    /* Brand - 青绿色运行状态 */
+    --primary: 168 65% 48%;
+    --primary-foreground: 220 18% 12%;
+    --secondary: 220 12% 25%;
+    --secondary-foreground: 210 15% 88%;
+    --accent: 200 95% 55%;
+    --accent-foreground: 220 18% 12%;
+
+    /* Muted - 灰色系 */
+    --muted: 220 12% 22%;
+    --muted-foreground: 210 10% 65%;
+
+    /* State & UI */
+    --destructive: 0 84% 58%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 220 15% 25%;
+    --input: 220 15% 20%;
+    --ring: 168 65% 48%;
+    --radius: 0.5rem;
+
+    /* Hover states - 饱和度+亮度复合调整 */
+    --primary-hover: 168 73% 54%;
+    --accent-hover: 200 90% 63%;
+    --muted-hover: 220 12% 28%;
+    --secondary-hover: 220 12% 30%;
+
+    /* Custom State Colors */
+    --success: 142 72% 45%;
+    --warning: 38 95% 58%;
+    --warning-foreground: 38 90% 15%;
+
+    /* Shadows */
+    --shadow-soft: 0 2px 8px rgba(0, 0, 0, 0.35);
+    --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.4);
+    --shadow-modal: 0 8px 24px rgba(0, 0, 0, 0.5);
+
+    /* Font stack - 兼顾中文与数字 */
+    --font-sans: "PingFang SC", "Roboto", "Helvetica Neue", system-ui, sans-serif;
+    --font-mono: "Roboto Mono", "SF Mono", Consolas, monospace;
+  }
+
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-sans);
+  }
+
+  /* 防止橡皮筋效果 */
+  html {
+    overscroll-behavior: none;
+  }
+}
+
+@layer components {
+
+  /* === REQUIRED === */
+  .text-page-title {
+    @apply text-2xl font-bold tracking-tight text-foreground;
+  }
+
+  .text-body {
+    @apply text-sm text-foreground/90 leading-relaxed;
+  }
+
+  .page-body {
+    @apply p-5;
+  }
+
+  .card-padding {
+    @apply p-4;
+  }
+
+  .surface-base {
+    @apply bg-card border border-border rounded-[--radius];
+  }
+
+  .surface-raised {
+    @apply bg-card border border-border rounded-[--radius] shadow-card;
+  }
+
+  /* === Typography === */
+  .text-section-title {
+    @apply text-lg font-semibold text-foreground;
+  }
+
+  .text-item-title {
+    @apply text-base font-semibold text-foreground;
+  }
+
+  .text-caption {
+    @apply text-xs text-muted-foreground;
+  }
+
+  .text-label {
+    @apply text-xs font-medium text-foreground/80 uppercase tracking-wide;
+  }
+
+  /* === Spacing === */
+  .page-container {
+    @apply max-w-screen-2xl mx-auto;
+  }
+
+  .section-spacing {
+    @apply space-y-6;
+  }
+
+  /* === Interaction === */
+  .interactive {
+    @apply transition-all duration-200 cursor-pointer;
+  }
+
+  /* === Structure === */
+  .page-section-header {
+    @apply flex items-center justify-between mb-4;
+  }
+
+  .filter-bar {
+    @apply flex flex-wrap items-center gap-3 p-4 bg-muted/30 border border-border rounded-lg;
+  }
+
+  .empty-state {
+    @apply flex flex-col items-center justify-center text-center text-muted-foreground min-h-[300px] p-8;
+  }
+
+  /* === Industry-Specific === */
+  .digital-display {
+    @apply bg-[hsl(220, 20%, 10%)] border-2 border-primary/40 rounded px-3 py-2 font-mono font-semibold text-primary text-center;
+    box-shadow: inset 0 0 8px hsl(168 65% 48% / 0.4);
+  }
+
+  .status-indicator {
+    @apply inline-flex items-center gap-1.5 px-2 py-1 rounded text-xs font-medium border;
+  }
+
+  .status-working {
+    @apply bg-primary/20 text-primary border-primary/40;
+  }
+
+  .status-idle {
+    @apply bg-muted text-muted-foreground border-border;
+  }
+
+  .alarm-error {
+    @apply bg-destructive/20 text-destructive border-destructive/40;
+    animation: pulse-alarm 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  .alarm-warning {
+    @apply bg-[hsl(var(--warning))]/20 border-[hsl(var(--warning))]/40;
+    color: hsl(var(--warning));
+  }
+
+  .alarm-success {
+    @apply bg-[hsl(var(--success))]/20 border-[hsl(var(--success))]/40;
+    color: hsl(var(--success));
+  }
+
+  .online-dot {
+    @apply w-2 h-2 rounded-full bg-primary;
+    animation: breathe 2s ease-in-out infinite;
+  }
+
+  .offline-dot {
+    @apply w-2 h-2 rounded-full bg-muted-foreground;
+  }
+
+  .industry-button {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-md font-medium text-sm border-2 transition-all duration-200;
+  }
+
+  .industry-button-primary {
+    @apply bg-primary text-primary-foreground border-primary;
+  }
+
+  .industry-button-primary:hover:not(:disabled) {
+    background-color: hsl(var(--primary-hover));
+    border-color: hsl(var(--primary-hover));
+    transform: translateY(-1px);
+  }
+
+  .industry-button-primary:active:not(:disabled) {
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+    transform: translateY(0);
+  }
+
+  .industry-button-destructive {
+    @apply bg-destructive text-destructive-foreground border-destructive;
+  }
+
+  .industry-button-destructive:hover:not(:disabled) {
+    background-color: hsl(0 84% 65%);
+    border-color: hsl(0 84% 65%);
+    transform: translateY(-1px);
+  }
+
+  .industry-button-outline {
+    @apply bg-transparent text-foreground border-border;
+  }
+
+  .industry-button-outline:hover:not(:disabled) {
+    @apply bg-muted border-muted-foreground/30;
+  }
+
+  .industry-button:disabled {
+    @apply opacity-50 cursor-not-allowed;
+  }
+
+  .device-card {
+    @apply surface-raised card-padding transition-shadow duration-300;
+  }
+
+  .device-card:hover {
+    box-shadow: var(--shadow-modal);
+  }
+
+  .gauge-container {
+    @apply relative flex items-center justify-center;
+  }
+
+  .trend-chart-container {
+    @apply w-full h-16 bg-muted/20 rounded border border-border/50;
+  }
+
+  @keyframes pulse-alarm {
+
+    0%,
+    100% {
+      opacity: 1;
+    }
+
+    50% {
+      opacity: 0.6;
+    }
+  }
+
+  @keyframes breathe {
+
+    0%,
+    100% {
+      opacity: 1;
+    }
+
+    50% {
+      opacity: 0.6;
+    }
+  }
+}

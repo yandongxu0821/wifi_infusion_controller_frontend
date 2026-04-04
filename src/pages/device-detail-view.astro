@@ -1,0 +1,13 @@
+
+---
+import StandardLayout from '@/layouts/StandardLayout.astro'
+import DeviceDetailContent from '@/components/device-detail-view/DeviceDetailContent.vue'
+---
+
+<StandardLayout 
+  title="设备详情" 
+  showBackButton={true}
+  backUrl="./monitoring-dashboard.html"
+>
+  <DeviceDetailContent client:load />
+</StandardLayout>

@@ -1,0 +1,67 @@
+
+---
+import '@/styles/global.css';
+import IndustryHeader from '@/components/common/IndustryHeader.vue';
+import { Toaster } from 'vue-sonner';
+
+interface Props {
+  title: string;
+  description?: string;
+  showBackButton?: boolean;
+  backUrl?: string;
+}
+
+const { 
+  title, 
+  description = "实时输液大屏监控系统", 
+  showBackButton = false, 
+  backUrl = './monitoring-dashboard.html' 
+} = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="zh-CN" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <title>{title} | 实时输液大屏监控</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body class="bg-background text-foreground min-h-screen flex flex-col">
+    <IndustryHeader 
+      client:load 
+      title={title} 
+      showBackButton={showBackButton} 
+      backUrl={backUrl}
+    >
+      <slot name="header-actions" slot="default" />
+    </IndustryHeader>
+
+    <main class="flex-1 page-container w-full">
+      <div class="page-body">
+        <slot />
+      </div>
+    </main>
+
+    <Toaster client:load position="top-right" closeButton />
+  </body>
+</html>
+
+<style is:global>
+  /* Custom scrollbar for industrial look */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--background));
+  }
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted));
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground) / 0.5);
+  }
+</style>

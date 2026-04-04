@@ -1,0 +1,31 @@
+
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="施工中 - 输液监控中心">
+  <div class="min-h-screen flex flex-col items-center justify-center page-body bg-gradient-radial from-card to-background">
+    <div class="surface-raised card-padding max-w-md text-center space-y-6">
+      <div class="flex items-center justify-center w-20 h-20 mx-auto bg-primary/10 rounded-full">
+        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary">
+          <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
+          <polyline points="14 2 14 8 20 8"/>
+          <line x1="12" y1="18" x2="12" y2="12"/>
+          <line x1="9" y1="15" x2="15" y2="15"/>
+        </svg>
+      </div>
+      <h1 class="text-page-title">页面建设中</h1>
+      <p class="text-body text-muted-foreground">此功能模块正在开发,敬请期待系统上线</p>
+      <div class="pt-4">
+        <a href="./monitoring-dashboard.html" class="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-[hsl(var(--primary-hover))] transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="19" y1="12" x2="5" y2="12"/>
+            <polyline points="12 19 5 12 12 5"/>
+          </svg>
+          返回监控中心
+        </a>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+    
