@@ -138,6 +138,10 @@ export default defineConfig({
     compressHTML: false,
     vite: {
         base: './',
+        server: {
+            host: true,
+            allowedHosts: ['code.sharinghub.cn', 'infusion.sharinghub.cn']
+        },
         resolve: {
             alias: {
                 '@': '/src'

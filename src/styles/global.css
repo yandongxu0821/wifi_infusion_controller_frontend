@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -53,95 +54,46 @@
     --font-mono: "Roboto Mono", "SF Mono", Consolas, monospace;
   }
 
-  * {
-    @apply border-border outline-ring/50;
-  }
-
+  * { @apply border-border outline-ring/50; }
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-sans);
   }
 
   /* 防止橡皮筋效果 */
-  html {
-    overscroll-behavior: none;
-  }
+  html { overscroll-behavior: none; }
 }
 
 @layer components {
-
   /* === REQUIRED === */
-  .text-page-title {
-    @apply text-2xl font-bold tracking-tight text-foreground;
-  }
-
-  .text-body {
-    @apply text-sm text-foreground/90 leading-relaxed;
-  }
-
-  .page-body {
-    @apply p-5;
-  }
-
-  .card-padding {
-    @apply p-4;
-  }
-
-  .surface-base {
-    @apply bg-card border border-border rounded-[--radius];
-  }
-
-  .surface-raised {
-    @apply bg-card border border-border rounded-[--radius] shadow-card;
-  }
+  .text-page-title { @apply text-2xl font-bold tracking-tight text-foreground; }
+  .text-body       { @apply text-sm text-foreground/90 leading-relaxed; }
+  .page-body       { @apply p-5; }
+  .card-padding    { @apply p-4; }
+  .surface-base    { @apply bg-card border border-border rounded-[--radius]; }
+  .surface-raised  { @apply bg-card border border-border rounded-[--radius] shadow-card; }
 
   /* === Typography === */
-  .text-section-title {
-    @apply text-lg font-semibold text-foreground;
-  }
-
-  .text-item-title {
-    @apply text-base font-semibold text-foreground;
-  }
-
-  .text-caption {
-    @apply text-xs text-muted-foreground;
-  }
-
-  .text-label {
-    @apply text-xs font-medium text-foreground/80 uppercase tracking-wide;
-  }
+  .text-section-title { @apply text-lg font-semibold text-foreground; }
+  .text-item-title    { @apply text-base font-semibold text-foreground; }
+  .text-caption       { @apply text-xs text-muted-foreground; }
+  .text-label         { @apply text-xs font-medium text-foreground/80 uppercase tracking-wide; }
 
   /* === Spacing === */
-  .page-container {
-    @apply max-w-screen-2xl mx-auto;
-  }
-
-  .section-spacing {
-    @apply space-y-6;
-  }
+  .page-container  { @apply max-w-screen-2xl mx-auto; }
+  .section-spacing { @apply space-y-6; }
 
   /* === Interaction === */
-  .interactive {
-    @apply transition-all duration-200 cursor-pointer;
-  }
+  .interactive { @apply transition-all duration-200 cursor-pointer; }
 
   /* === Structure === */
-  .page-section-header {
-    @apply flex items-center justify-between mb-4;
-  }
-
-  .filter-bar {
-    @apply flex flex-wrap items-center gap-3 p-4 bg-muted/30 border border-border rounded-lg;
-  }
-
-  .empty-state {
-    @apply flex flex-col items-center justify-center text-center text-muted-foreground min-h-[300px] p-8;
-  }
+  .page-section-header { @apply flex items-center justify-between mb-4; }
+  .filter-bar          { @apply flex flex-wrap items-center gap-3 p-4 bg-muted/30 border border-border rounded-lg; }
+  .empty-state         { @apply flex flex-col items-center justify-center text-center text-muted-foreground min-h-[300px] p-8; }
 
   /* === Industry-Specific === */
   .digital-display {
-    @apply bg-[hsl(220, 20%, 10%)] border-2 border-primary/40 rounded px-3 py-2 font-mono font-semibold text-primary text-center;
+    @apply bg-[hsl(220,20%,10%)] border-2 border-primary/40 rounded px-3 py-2 font-mono font-semibold text-primary text-center;
     box-shadow: inset 0 0 8px hsl(168 65% 48% / 0.4);
   }
 
@@ -196,7 +148,7 @@
   }
 
   .industry-button-primary:active:not(:disabled) {
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
     transform: translateY(0);
   }
 
@@ -239,26 +191,13 @@
   }
 
   @keyframes pulse-alarm {
-
-    0%,
-    100% {
-      opacity: 1;
-    }
-
-    50% {
-      opacity: 0.6;
-    }
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
   }
 
   @keyframes breathe {
-
-    0%,
-    100% {
-      opacity: 1;
-    }
-
-    50% {
-      opacity: 0.6;
-    }
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
   }
 }
+    
