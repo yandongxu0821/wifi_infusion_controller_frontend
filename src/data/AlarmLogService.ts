@@ -1,6 +1,7 @@
 
 import type { AlarmLogData } from './AlarmLogData'
 import { getById as getDeviceById } from './InfusionDeviceService'
+import { apiClient, type ApiResponse, type PaginatedResponse } from '../lib/api'
 
 export interface AlarmLogVO extends AlarmLogData {
   severityLabel: string
@@ -12,6 +13,27 @@ export interface AlarmLogWithDeviceVO extends AlarmLogVO {
   bedNumber: string
 }
 
+export interface AlarmQueryParams {
+  page?: number
+  size?: number
+  keyword?: string
+  deviceId?: string
+  severity?: string
+  isHandled?: string
+  startTime?: string
+  endTime?: string
+  sort?: string
+}
+
+export interface AlarmListResponse extends PaginatedResponse<AlarmLogData> {}
+
+export interface HandleAlarmRequest {
+  operatorName: string
+  handledAt: string
+  message: string
+}
+
+// Keep mock data for backward compatibility
 export const alarmLogDataList: AlarmLogData[] = [
   {
     id: 'alarm-001',
@@ -81,6 +103,35 @@ export const alarmLogDataList: AlarmLogData[] = [
   }
 ]
 
+// API-based functions
+export async function getAlarms(params: AlarmQueryParams = {}): Promise<ApiResponse<AlarmListResponse>> {
+  const queryParams: Record<string, string> = {}
+  if (params.page !== undefined) queryParams.page = params.page.toString()
+  if (params.size !== undefined) queryParams.size = params.size.toString()
+  if (params.keyword) queryParams.keyword = params.keyword
+  if (params.deviceId) queryParams.deviceId = params.deviceId
+  if (params.severity) queryParams.severity = params.severity
+  if (params.isHandled) queryParams.isHandled = params.isHandled
+  if (params.startTime) queryParams.startTime = params.startTime
+  if (params.endTime) queryParams.endTime = params.endTime
+  if (params.sort) queryParams.sort = params.sort
+
+  return apiClient.get<AlarmListResponse>('/api/v1/alarms', queryParams)
+}
+
+export async function getAlarmById(id: string): Promise<ApiResponse<AlarmLogData>> {
+  return apiClient.get<AlarmLogData>(`/api/v1/alarms/${id}`)
+}
+
+export async function handleAlarm(id: string, request: HandleAlarmRequest): Promise<ApiResponse<AlarmLogData>> {
+  return apiClient.put<AlarmLogData>(`/api/v1/alarms/${id}/handle`, request)
+}
+
+export async function getUnhandledAlarmCount(): Promise<ApiResponse<{ count: number }>> {
+  return apiClient.get<{ count: number }>('/api/v1/alarms/unhandled/count')
+}
+
+// Mock-based functions for backward compatibility
 export function getAll(): AlarmLogData[] {
   return alarmLogDataList
 }

@@ -1,10 +1,18 @@
 
 import type { DeviceTelemetryData } from './DeviceTelemetryData'
+import { apiClient, type ApiResponse } from '../lib/api'
 
 export interface DeviceTelemetryVO extends DeviceTelemetryData {
   trendPoints: number[]
 }
 
+export interface DeviceHistoryParams {
+  startTime: string
+  endTime: string
+  interval?: string
+}
+
+// Keep mock data for backward compatibility
 export const deviceTelemetryDataList: DeviceTelemetryData[] = [
   {
     id: 'telemetry-001',
@@ -68,6 +76,22 @@ export const deviceTelemetryDataList: DeviceTelemetryData[] = [
   }
 ]
 
+// API-based functions
+export async function getDeviceTelemetry(deviceId: string): Promise<ApiResponse<DeviceTelemetryData>> {
+  return apiClient.get<DeviceTelemetryData>(`/api/v1/devices/${deviceId}/telemetry`)
+}
+
+export async function getDeviceHistory(deviceId: string, params: DeviceHistoryParams): Promise<ApiResponse<DeviceTelemetryData[]>> {
+  const queryParams: Record<string, string> = {
+    startTime: params.startTime,
+    endTime: params.endTime,
+  }
+  if (params.interval) queryParams.interval = params.interval
+
+  return apiClient.get<DeviceTelemetryData[]>(`/api/v1/devices/${deviceId}/history`, queryParams)
+}
+
+// Mock-based functions for backward compatibility
 export function getAll(): DeviceTelemetryData[] {
   return deviceTelemetryDataList
 }

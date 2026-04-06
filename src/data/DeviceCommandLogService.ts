@@ -1,10 +1,25 @@
 
 import type { DeviceCommandLogData } from './DeviceCommandLogData'
+import { apiClient, type ApiResponse, type PaginatedResponse } from '../lib/api'
 
 export interface DeviceCommandLogVO extends DeviceCommandLogData {
   commandLabel: string
 }
 
+export interface CommandQueryParams {
+  page?: number
+  size?: number
+  deviceId?: string
+  commandType?: string
+  commandStatus?: string
+  startTime?: string
+  endTime?: string
+  sort?: string
+}
+
+export interface CommandListResponse extends PaginatedResponse<DeviceCommandLogData> {}
+
+// Keep mock data for backward compatibility
 export const deviceCommandLogDataList: DeviceCommandLogData[] = [
   {
     id: 'cmd-001',
@@ -62,6 +77,26 @@ export const deviceCommandLogDataList: DeviceCommandLogData[] = [
   }
 ]
 
+// API-based functions
+export async function getCommands(params: CommandQueryParams = {}): Promise<ApiResponse<CommandListResponse>> {
+  const queryParams: Record<string, string> = {}
+  if (params.page !== undefined) queryParams.page = params.page.toString()
+  if (params.size !== undefined) queryParams.size = params.size.toString()
+  if (params.deviceId) queryParams.deviceId = params.deviceId
+  if (params.commandType) queryParams.commandType = params.commandType
+  if (params.commandStatus) queryParams.commandStatus = params.commandStatus
+  if (params.startTime) queryParams.startTime = params.startTime
+  if (params.endTime) queryParams.endTime = params.endTime
+  if (params.sort) queryParams.sort = params.sort
+
+  return apiClient.get<CommandListResponse>('/api/v1/commands', queryParams)
+}
+
+export async function getCommandById(id: string): Promise<ApiResponse<DeviceCommandLogData>> {
+  return apiClient.get<DeviceCommandLogData>(`/api/v1/commands/${id}`)
+}
+
+// Mock-based functions for backward compatibility
 export function getAll(): DeviceCommandLogData[] {
   return deviceCommandLogDataList
 }

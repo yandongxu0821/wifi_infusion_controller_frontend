@@ -1,10 +1,27 @@
 
 import type { SystemMetricData } from './SystemMetricData'
+import { apiClient, type ApiResponse, type PaginatedResponse } from '../lib/api'
 
 export interface SystemMetricVO extends SystemMetricData {
   displayValue: string
 }
 
+export interface MetricQueryParams {
+  page?: number
+  size?: number
+  metricName?: string
+  status?: string
+  startTime?: string
+  endTime?: string
+}
+
+export interface MetricListResponse extends PaginatedResponse<SystemMetricData> {}
+
+export interface HealthResponse {
+  status: string
+}
+
+// Keep mock data for backward compatibility
 export const systemMetricDataList: SystemMetricData[] = [
   {
     id: 'metric-001',
@@ -44,6 +61,24 @@ export const systemMetricDataList: SystemMetricData[] = [
   }
 ]
 
+// API-based functions
+export async function getSystemMetrics(params: MetricQueryParams = {}): Promise<ApiResponse<MetricListResponse>> {
+  const queryParams: Record<string, string> = {}
+  if (params.page !== undefined) queryParams.page = params.page.toString()
+  if (params.size !== undefined) queryParams.size = params.size.toString()
+  if (params.metricName) queryParams.metricName = params.metricName
+  if (params.status) queryParams.status = params.status
+  if (params.startTime) queryParams.startTime = params.startTime
+  if (params.endTime) queryParams.endTime = params.endTime
+
+  return apiClient.get<MetricListResponse>('/api/v1/system/metrics', queryParams)
+}
+
+export async function getSystemHealth(): Promise<ApiResponse<HealthResponse>> {
+  return apiClient.get<HealthResponse>('/api/v1/system/health')
+}
+
+// Mock-based functions for backward compatibility
 export function getAll(): SystemMetricData[] {
   return systemMetricDataList
 }

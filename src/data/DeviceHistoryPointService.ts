@@ -1,10 +1,18 @@
 
 import type { DeviceHistoryPointData } from './DeviceHistoryPointData'
+import { apiClient, type ApiResponse } from '../lib/api'
 
 export interface DeviceHistoryPointVO extends DeviceHistoryPointData {
   seqLabel: string
 }
 
+export interface HistoryQueryParams {
+  startTime: string
+  endTime: string
+  interval?: string
+}
+
+// Keep mock data for backward compatibility
 export const deviceHistoryPointDataList: DeviceHistoryPointData[] = [
   { id: 'hist-001', deviceId: 'dev-001', timestamp: '2026-04-03T07:30:00+08:00', dripRate: 16, status: 'WORKING', alarmStatus: 'NORMAL' },
   { id: 'hist-002', deviceId: 'dev-001', timestamp: '2026-04-03T07:40:00+08:00', dripRate: 17, status: 'WORKING', alarmStatus: 'NORMAL' },
@@ -20,6 +28,18 @@ export const deviceHistoryPointDataList: DeviceHistoryPointData[] = [
   { id: 'hist-012', deviceId: 'dev-003', timestamp: '2026-04-03T08:20:00+08:00', dripRate: 24, status: 'WORKING', alarmStatus: 'FAST' }
 ]
 
+// API-based functions
+export async function getDeviceHistory(deviceId: string, params: HistoryQueryParams): Promise<ApiResponse<DeviceHistoryPointData[]>> {
+  const queryParams: Record<string, string> = {
+    startTime: params.startTime,
+    endTime: params.endTime,
+  }
+  if (params.interval) queryParams.interval = params.interval
+
+  return apiClient.get<DeviceHistoryPointData[]>(`/api/v1/devices/${deviceId}/history`, queryParams)
+}
+
+// Mock-based functions for backward compatibility
 export function getAll(): DeviceHistoryPointData[] {
   return deviceHistoryPointDataList
 }

@@ -1,6 +1,7 @@
 
 import type { InfusionDeviceData } from './InfusionDeviceData'
 import { getById as getWardById } from './WardService'
+import { apiClient, type ApiResponse, type PaginatedResponse } from '../lib/api'
 
 export interface InfusionDeviceVO extends InfusionDeviceData {
   wardName: string
@@ -9,6 +10,20 @@ export interface InfusionDeviceVO extends InfusionDeviceData {
   buildingName: string
 }
 
+export interface DeviceQueryParams {
+  page?: number
+  size?: number
+  keyword?: string
+  status?: string
+  alarmStatus?: string
+  onlineStatus?: string
+  wardId?: string
+  sort?: string
+}
+
+export interface DeviceListResponse extends PaginatedResponse<InfusionDeviceData> {}
+
+// Keep mock data for getById since it's UNUSED
 export const infusionDeviceDataList: InfusionDeviceData[] = [
   {
     id: 'dev-001',
@@ -102,12 +117,33 @@ export const infusionDeviceDataList: InfusionDeviceData[] = [
   }
 ]
 
-export function getAll(): InfusionDeviceData[] {
-  return infusionDeviceDataList
+// API-based functions
+export async function getDevices(params: DeviceQueryParams = {}): Promise<ApiResponse<DeviceListResponse>> {
+  const queryParams: Record<string, string> = {}
+  if (params.page !== undefined) queryParams.page = params.page.toString()
+  if (params.size !== undefined) queryParams.size = params.size.toString()
+  if (params.keyword) queryParams.keyword = params.keyword
+  if (params.status) queryParams.status = params.status
+  if (params.alarmStatus) queryParams.alarmStatus = params.alarmStatus
+  if (params.onlineStatus) queryParams.onlineStatus = params.onlineStatus
+  if (params.wardId) queryParams.wardId = params.wardId
+  if (params.sort) queryParams.sort = params.sort
+
+  return apiClient.get<DeviceListResponse>('/api/v1/devices', queryParams)
 }
 
+export async function sendDeviceCommand(deviceId: string, command: { commandType: 'START' | 'STOP', operatorName: string, message: string }): Promise<ApiResponse<any>> {
+  return apiClient.post(`/api/v1/devices/${deviceId}/commands`, command)
+}
+
+// Mock-based functions for UNUSED APIs
 export function getById(id: string): InfusionDeviceData | undefined {
   return infusionDeviceDataList.find(item => item.id === id)
+}
+
+// Legacy functions for backward compatibility (using mock data)
+export function getAll(): InfusionDeviceData[] {
+  return infusionDeviceDataList
 }
 
 export function query(params: {

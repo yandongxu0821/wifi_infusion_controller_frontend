@@ -1,10 +1,12 @@
 
 import type { SystemConnectionData } from './SystemConnectionData'
+import { apiClient, type ApiResponse } from '../lib/api'
 
 export interface SystemConnectionVO extends SystemConnectionData {
   stateLabel: string
 }
 
+// Keep mock data for backward compatibility
 export const systemConnectionDataList: SystemConnectionData[] = [
   {
     id: 'sys-001',
@@ -20,6 +22,12 @@ export const systemConnectionDataList: SystemConnectionData[] = [
   }
 ]
 
+// API-based functions
+export async function getSystemStatus(): Promise<ApiResponse<SystemConnectionData>> {
+  return apiClient.get<SystemConnectionData>('/api/v1/system/status')
+}
+
+// Mock-based functions for backward compatibility
 export function getAll(): SystemConnectionData[] {
   return systemConnectionDataList
 }
